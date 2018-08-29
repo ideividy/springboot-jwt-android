@@ -26,7 +26,6 @@ public class ActCadCliente extends AppCompatActivity {
 
     private EditText edtNome;
     private EditText edtEndereco;
-    private AutenticacaoService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +36,6 @@ public class ActCadCliente extends AppCompatActivity {
 
         edtNome = (EditText)findViewById(R.id.edtNome);
         edtEndereco = (EditText)findViewById(R.id.edtEndereco);
-
-        service = new RetrofitConfig().buildRetrofit().create(AutenticacaoService.class);
-
     }
 
     private void validaCampos(){
@@ -91,23 +87,7 @@ public class ActCadCliente extends AppCompatActivity {
                 jwt.setSenha("123456");
 */
 
-                final String json = "{\"email\":\"deividy@gmail.com\", \"senha\":\"123456\"}";
-                RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
 
-                Call<Response<TokenDto>> call = service.auth(body);
-
-                call.enqueue(new Callback<Response<TokenDto>>(){
-                    @Override
-                    public void onResponse(Call<Response<TokenDto>> call, retrofit2.Response<Response<TokenDto>> response) {
-                        TokenDto tokenDto = response.body().getData();
-                        System.out.println("TOKEN: " + tokenDto.getToken());
-                    }
-
-                    @Override
-                    public void onFailure(Call<Response<TokenDto>> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
 
                 break;
             case R.id.action_cancel:

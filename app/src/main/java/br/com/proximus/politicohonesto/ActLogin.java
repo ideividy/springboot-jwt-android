@@ -3,6 +3,7 @@ package br.com.proximus.politicohonesto;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -28,8 +29,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.proximus.politicohonesto.autenticacao.Response;
+import br.com.proximus.politicohonesto.autenticacao.config.RetrofitConfig;
+import br.com.proximus.politicohonesto.autenticacao.dto.TokenDto;
+import br.com.proximus.politicohonesto.autenticacao.service.AutenticacaoService;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -60,6 +70,7 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private AutenticacaoService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +102,8 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        service = new RetrofitConfig().buildRetrofit().create(AutenticacaoService.class);
     }
 
     private void populateAutoComplete() {
@@ -184,10 +197,33 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            /*mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Void) null);*/
+
+            final String json = "{\"email\":"+email+", \"senha\":"+password+"}";
+            RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+
+            Call<Response<TokenDto>> call = service.auth(body);
+
+            call.enqueue(new Callback<Response<TokenDto>>(){
+                @Override
+                public void onResponse(Call<Response<TokenDto>> call, retrofit2.Response<Response<TokenDto>> response) {
+                    TokenDto tokenDto = response.body().getData();
+                    System.out.println("TOKEN: " + tokenDto.getToken());
+
+                    Intent it = new Intent(ActLogin.this, ActMain.class);
+                    startActivity(it);
+                }
+
+                @Override
+                public void onFailure(Call<Response<TokenDto>> call, Throwable t) {
+                    t.printStackTrace();
+                    showProgress(false);
+                }
+            });
         }
     }
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
@@ -244,7 +280,7 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
                 // Select only email addresses.
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                                                                     .CONTENT_ITEM_TYPE},
+                .CONTENT_ITEM_TYPE},
 
                 // Show primary email addresses first. Note that there won't be
                 // a primary email address if the user hasn't specified one.
@@ -268,6 +304,16 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
 
     }
 
+    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(ActLogin.this,
+                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+
+        mEmailView.setAdapter(adapter);
+    }
+
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -276,16 +322,6 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
-
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(ActLogin.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
     }
 
     /**
