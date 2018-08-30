@@ -1,4 +1,4 @@
-package br.com.proximus.politicohonesto.autenticacao.config;
+package br.com.proximus.politicohonesto.security.config;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitConfig {
 
-    private final static String URL_BASE = "https://lit-river-38977.herokuapp.com/";//"http://192.168.43.69:8080/";
+    private final static String URL_BASE = /*"https://lit-river-38977.herokuapp.com/";*/"http://192.168.43.69:8080/";
 
     public RetrofitConfig(){
 

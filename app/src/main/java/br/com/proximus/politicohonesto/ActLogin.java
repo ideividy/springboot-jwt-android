@@ -33,10 +33,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.proximus.politicohonesto.autenticacao.Response;
-import br.com.proximus.politicohonesto.autenticacao.config.RetrofitConfig;
-import br.com.proximus.politicohonesto.autenticacao.dto.TokenDto;
-import br.com.proximus.politicohonesto.autenticacao.service.AutenticacaoService;
+import br.com.proximus.politicohonesto.controllers.LoggedUserController;
+import br.com.proximus.politicohonesto.security.Response;
+import br.com.proximus.politicohonesto.security.config.RetrofitConfig;
+import br.com.proximus.politicohonesto.security.dto.TokenDto;
+import br.com.proximus.politicohonesto.security.service.AutenticacaoService;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -200,7 +201,7 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
             /*mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);*/
 
-            final String json = "{\"email\":"+email+", \"senha\":"+password+"}";
+            final String json = "{\"email\":\""+email+"\", \"senha\":\""+password+"\"}";
             RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
 
             Call<Response<TokenDto>> call = service.auth(body);
@@ -208,8 +209,14 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
             call.enqueue(new Callback<Response<TokenDto>>(){
                 @Override
                 public void onResponse(Call<Response<TokenDto>> call, retrofit2.Response<Response<TokenDto>> response) {
-                    TokenDto tokenDto = response.body().getData();
-                    System.out.println("TOKEN: " + tokenDto.getToken());
+                    TokenDto tokenDto = response.body() != null ? response.body().getData(): null;
+                    System.out.println("TOKEN: " + tokenDto != null ? tokenDto.getToken() : "");
+
+                    LoggedUserController controller = new LoggedUserController(getBaseContext());
+
+                    mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
+                    controller.insertLogin(mEmailView.getText().toString(), tokenDto.getToken());
 
                     Intent it = new Intent(ActLogin.this, ActMain.class);
                     startActivity(it);

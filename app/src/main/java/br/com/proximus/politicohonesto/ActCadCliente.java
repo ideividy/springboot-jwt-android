@@ -11,17 +11,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import br.com.proximus.politicohonesto.autenticacao.config.RetrofitConfig;
-import br.com.proximus.politicohonesto.autenticacao.service.AutenticacaoService;
-import br.com.proximus.politicohonesto.autenticacao.dto.TokenDto;
-import br.com.proximus.politicohonesto.autenticacao.Response;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-
+/**
+ * Activity to test a simple CRUD design with validations
+ *
+ * @author Deividy Pinheiro
+ */
 public class ActCadCliente extends AppCompatActivity {
 
     private EditText edtNome;
@@ -78,20 +72,11 @@ public class ActCadCliente extends AppCompatActivity {
 
         switch (id){
             case R.id.action_ok:
-                //Toast.makeText(this, "Botão OK Selecionado", Toast.LENGTH_SHORT).show();
-                //validaCampos();
-                JSONObject jsonObject = new JSONObject();
-
-                /*JwtAuthenticationDto jwt = new JwtAuthenticationDto();
-                jwt.setEmail("deividy@gmail.com");
-                jwt.setSenha("123456");
-*/
-
-
-
+                Toast.makeText(this, "Button OK Selected", Toast.LENGTH_SHORT).show();
+                validaCampos();
                 break;
             case R.id.action_cancel:
-                Toast.makeText(this, "Botão Cancelar Selecionado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Button Cancelar Selected", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }

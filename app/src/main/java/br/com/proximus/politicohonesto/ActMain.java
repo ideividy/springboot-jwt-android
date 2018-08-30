@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import br.com.proximus.politicohonesto.autenticacao.service.AutenticacaoService;
+import br.com.proximus.politicohonesto.security.service.AutenticacaoService;
 
 public class ActMain extends AppCompatActivity {
 

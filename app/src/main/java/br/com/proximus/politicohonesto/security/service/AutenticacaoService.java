@@ -1,8 +1,8 @@
-package br.com.proximus.politicohonesto.autenticacao.service;
+package br.com.proximus.politicohonesto.security.service;
 
 
-import br.com.proximus.politicohonesto.autenticacao.dto.TokenDto;
-import br.com.proximus.politicohonesto.autenticacao.Response;
+import br.com.proximus.politicohonesto.security.dto.TokenDto;
+import br.com.proximus.politicohonesto.security.Response;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;

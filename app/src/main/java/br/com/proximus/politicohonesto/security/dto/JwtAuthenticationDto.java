@@ -1,4 +1,4 @@
-package br.com.proximus.politicohonesto.autenticacao.dto;
+package br.com.proximus.politicohonesto.security.dto;
 
 public class JwtAuthenticationDto {
 	

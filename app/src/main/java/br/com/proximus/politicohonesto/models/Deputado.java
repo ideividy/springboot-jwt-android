@@ -1,4 +1,4 @@
-package br.com.proximus.politicohonesto.modelo;
+package br.com.proximus.politicohonesto.models;
 
 public class Deputado {
 

@@ -1,13 +1,9 @@
 package br.com.proximus.politicohonesto.http;
 
-import android.app.Notification;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpBasicAuthentication;
 import org.springframework.http.HttpEntity;
@@ -20,15 +16,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.Collections;
 
 import br.com.proximus.politicohonesto.ActCadCliente;
-import br.com.proximus.politicohonesto.modelo.Deputado;
+import br.com.proximus.politicohonesto.models.Deputado;
 
 @Deprecated
 public class HttpService extends AsyncTask<String, Void, Deputado> {

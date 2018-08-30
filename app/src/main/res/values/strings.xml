@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PoliticoHonesto</string>
+    <string name="app_name">DRP APP</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_act_cad_cliente">Cliente</string>
     <string name="lbl_nome">Nome</string>
