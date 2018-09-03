@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ import br.com.proximus.politicohonesto.security.Response;
 import br.com.proximus.politicohonesto.security.config.RetrofitConfig;
 import br.com.proximus.politicohonesto.security.dto.TokenDto;
 import br.com.proximus.politicohonesto.security.service.AutenticacaoService;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -190,6 +192,8 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
             cancel = true;
         }
 
+        //verificarEmailComTokenValido
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -202,33 +206,41 @@ public class ActLogin extends AppCompatActivity implements LoaderCallbacks<Curso
             mAuthTask.execute((Void) null);*/
 
             final String json = "{\"email\":\""+email+"\", \"senha\":\""+password+"\"}";
-            RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
-
-            Call<Response<TokenDto>> call = service.auth(body);
-
-            call.enqueue(new Callback<Response<TokenDto>>(){
-                @Override
-                public void onResponse(Call<Response<TokenDto>> call, retrofit2.Response<Response<TokenDto>> response) {
-                    TokenDto tokenDto = response.body() != null ? response.body().getData(): null;
-                    System.out.println("TOKEN: " + tokenDto != null ? tokenDto.getToken() : "");
-
-                    LoggedUserController controller = new LoggedUserController(getBaseContext());
-
-                    mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
-                    controller.insertLogin(mEmailView.getText().toString(), tokenDto.getToken());
-
-                    Intent it = new Intent(ActLogin.this, ActMain.class);
-                    startActivity(it);
-                }
-
-                @Override
-                public void onFailure(Call<Response<TokenDto>> call, Throwable t) {
-                    t.printStackTrace();
-                    showProgress(false);
-                }
-            });
+            autenticar(json);
         }
+    }
+
+    private void autenticar(String json) {
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+
+
+        Call<Response<TokenDto>> call = service.auth(body);
+
+        call.enqueue(new Callback<Response<TokenDto>>(){
+            @Override
+            public void onResponse(Call<Response<TokenDto>> call, retrofit2.Response<Response<TokenDto>> response) {
+                TokenDto tokenDto = response.body() != null ? response.body().getData(): null;
+                System.out.println("TOKEN: " + tokenDto != null ? tokenDto.getToken() : "");
+
+                LoggedUserController controller = new LoggedUserController(getBaseContext());
+
+                mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
+                controller.insertLogin(mEmailView.getText().toString(), tokenDto.getToken());
+
+                Intent it = new Intent(ActLogin.this, ActMain.class);
+                startActivity(it);
+            }
+
+            @Override
+            public void onFailure(Call<Response<TokenDto>> call, Throwable t) {
+                t.printStackTrace();
+                showProgress(false);
+
+                mEmailView.setError("Connection failed");
+                mEmailView.requestFocus();
+            }
+        });
     }
 
     private boolean isEmailValid(String email) {

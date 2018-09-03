@@ -8,45 +8,16 @@
     tools:context=".ActCadCliente"
     tools:showIn="@layout/act_cad_cliente">
 
-    <TextView
-        android:id="@+id/txtNome"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listDados"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/lbl_nome"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
 
-    <EditText
-        android:id="@+id/edtNome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/txtNome"
-        app:layout_constraintStart_toStartOf="@+id/txtNome"
-        app:layout_constraintTop_toBottomOf="@+id/txtNome" />
-
-    <TextView
-        android:id="@+id/txtEndereco"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/lbl_endereco"
-        app:layout_constraintEnd_toEndOf="@+id/edtNome"
-        app:layout_constraintStart_toStartOf="@+id/edtNome"
-        app:layout_constraintTop_toBottomOf="@+id/edtNome" />
-
-    <EditText
-        android:id="@+id/edtEndereco"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/txtEndereco"
-        app:layout_constraintStart_toStartOf="@+id/txtEndereco"
-        app:layout_constraintTop_toBottomOf="@+id/txtEndereco" />
 </android.support.constraint.ConstraintLayout>

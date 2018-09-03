@@ -15,5 +15,6 @@ public final class LoggedUserContract {
         public static final String TABLE_NAME = "logged_user";
         public static final String COLUMN_NAME_EMAIL = "email";
         public static final String COLUMN_NAME_TOKEN = "token";
+        public static final String[] COLUMNS = { _ID, COLUMN_NAME_EMAIL, COLUMN_NAME_TOKEN };
     }
 }

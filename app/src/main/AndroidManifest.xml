@@ -11,30 +11,29 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_dp"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_dp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".ActMain"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActCadCliente"
             android:label="@string/title_activity_act_cad_cliente"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActLogin"
-            android:label="@string/title_activity_act_login">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

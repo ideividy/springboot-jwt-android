@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import br.com.proximus.politicohonesto.controllers.LoggedUserController;
 import br.com.proximus.politicohonesto.security.service.AutenticacaoService;
 
 public class ActMain extends AppCompatActivity {
@@ -28,18 +29,19 @@ public class ActMain extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         lstDados = (RecyclerView)findViewById(R.id.listDados);
 
+       /* LoggedUserController controller = new LoggedUserController(getBaseContext());
 
-        /*HttpService service = new HttpService();
-        service.execute("http://localhost:8080/auth");*/
+        String token = controller.getTokenByEmail("");
 
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(ActMain.this, ActCadCliente.class);
-                startActivity(it);
-            }
-        });*/
+        if(token == null || token.isEmpty() ){
+            login();
+        }*/
 
+    }
+
+    public void login(){
+        Intent it = new Intent(ActMain.this, ActLogin.class);
+        startActivity(it);
     }
 
     public void cadastrar (View view){
